@@ -27,12 +27,13 @@ async function getPhotos({
   page?: number;
 }): Promise<HttpResponse<Photo[]>> {
   const params = new URLSearchParams();
-  params.append("client_id", process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY!);
+  params.append(
+    "client_id",
+    process.env.UNSPLASH_ACCESS_KEY ||
+      process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY!
+  );
   params.append("page", page.toString());
   params.append("per_page", "12");
-
-  // wait for 500ms
-  await new Promise((resolve) => setTimeout(resolve, 500));
 
   const resp = await fetch(`https://api.unsplash.com/photos?${params}`);
   const totalPhotos = resp.headers.get("x-total")!;
