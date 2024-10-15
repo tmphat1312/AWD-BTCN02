@@ -22,11 +22,12 @@ export default async function Photo({ params }: { params: { id: string } }) {
         {photo.description ?? "No description"}
       </p>
       <Image
-        className="mt-2"
+        className="mt-2 bg-gray-200"
         src={photo.urls.raw}
         alt={photo.alt_description}
         width={photo.width}
         height={photo.height}
+        blurDataURL={photo.urls.thumb}
       />
     </section>
   );

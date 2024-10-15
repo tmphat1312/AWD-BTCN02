@@ -30,17 +30,41 @@ export default function Photos() {
   }, [hasNextPage, fetchNextPage]);
 
   if (status == "pending") {
-    // TODO: skeleton here
-    return <p>Loading...</p>;
+    return (
+      <Layout>
+        <p className="sr-only">Loading</p>
+        <ImagesSkeleton />
+      </Layout>
+    );
   }
 
   if (status == "error") {
-    // TODO: proper error here
-    return <p>Error!</p>;
+    return (
+      <Layout>
+        <p>Error!</p>
+      </Layout>
+    );
   }
 
   const photos = data.pages.flatMap((page) => page.data);
 
+  return (
+    <Layout>
+      <Images images={photos} />
+      <div ref={loadMoreRef}></div>
+      {isFetchingNextPage && (
+        <p className="text-center text-xl animate-pulse mt-4 font-medium">
+          Loading more...
+        </p>
+      )}
+      {!hasNextPage && (
+        <p className="text-center mt-4 font-medium text-xl">No more photos</p>
+      )}
+    </Layout>
+  );
+}
+
+function Layout({ children }: { children: React.ReactNode }) {
   return (
     <section className="mb-20">
       <h2 className="text-xl md:text-2xl font-medium text-center mb-2.5 md:mb-4">
@@ -54,17 +78,14 @@ export default function Photos() {
           Unsplash
         </Link>
       </h2>
-      <Images images={photos} />
-      <div ref={loadMoreRef}></div>
-      {isFetchingNextPage && <p>Loading more...</p>}
-      {!hasNextPage && <p>No more photos</p>}
+      {children}
     </section>
   );
 }
 
 function Images({ images }: { images: Photo[] }) {
   return (
-    <ul className="grid justify-center sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <ul className="w-full grid justify-center sm:grid-cols-2 md:grid-cols-3 gap-4 xl:grid-cols-4">
       {images.map((photo) => (
         <li
           key={photo.id}
@@ -72,7 +93,7 @@ function Images({ images }: { images: Photo[] }) {
         >
           <Link href={`/photos/${photo.id}`} className="group">
             <Image
-              className="rounded-sm w-[400px] h-[200px] object-cover group-hover:scale-105 transition-transform duration-300 brightness-90 group-hover:brightness-100 transition-brightness"
+              className="rounded-sm w-full h-[200px] object-cover group-hover:scale-105 transition-transform duration-300 brightness-90 group-hover:brightness-100 transition-brightness"
               width={400}
               height={200}
               src={photo.urls.small}
@@ -86,5 +107,27 @@ function Images({ images }: { images: Photo[] }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+function ImagesSkeleton() {
+  return (
+    <div
+      className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 xl:grid-cols-4"
+      role="presentation"
+    >
+      {[...Array(12)].map((_, index) => (
+        <div
+          key={index}
+          className="place-content-center rounded-md overflow-clip shadow bg-gray-50"
+        >
+          <div className="w-full h-[200px] animate-pulse bg-gray-300"></div>
+          <div className="py-2">
+            <div className="w-1/5 h-[18px] mx-auto bg-gray-300 animate-pulse rounded mb-1"></div>
+            <div className="w-1/2 h-6 mx-auto bg-gray-300 animate-pulse rounded"></div>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }
