@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 
-export default function Photos() {
+export default function PhotosPage() {
   const { data, fetchNextPage, hasNextPage, status, isFetchingNextPage } =
     useInfiniteQuery({
       initialPageParam: 1,
@@ -41,7 +41,9 @@ export default function Photos() {
   if (status == "error") {
     return (
       <Layout>
-        <p>Error!</p>
+        <p className="text-center text-2xl text-red-500">
+          Error when loading photos!
+        </p>
       </Layout>
     );
   }
