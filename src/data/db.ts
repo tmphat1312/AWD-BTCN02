@@ -1,10 +1,18 @@
 export type Photo = {
   id: string;
   slug: string;
+  width: number;
+  height: number;
   urls: {
     thumb: string;
+    raw: string;
+    small: string;
   };
+  description: string;
   alt_description: string;
+  user: {
+    name: string;
+  };
 };
 
 export type HttpResponse<T> = {
@@ -19,7 +27,10 @@ async function getPhotos({
 }): Promise<HttpResponse<Photo[]>> {
   const params = new URLSearchParams();
   params.append("_page", page.toString());
-  params.append("_per_page", "2");
+  params.append("_per_page", "12");
+
+  // wait 500ms
+  await new Promise((resolve) => setTimeout(resolve, 500));
 
   const resp = await fetch(`http://localhost:3000/photos?${params}`);
   return resp.json();
