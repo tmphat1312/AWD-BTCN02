@@ -100,6 +100,7 @@ function Images({ images }: { images: Photo[] }) {
               height={200}
               src={photo.urls.small}
               alt={photo.alt_description}
+              blurDataURL={photo.blur_hash}
             />
             <section className="text-center py-2 group-hover:underline underline-offset-2">
               <span className="text-sm italic">Published by</span>

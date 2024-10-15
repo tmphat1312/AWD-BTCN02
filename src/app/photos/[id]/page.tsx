@@ -27,7 +27,7 @@ export default async function Photo({ params }: { params: { id: string } }) {
         alt={photo.alt_description}
         width={photo.width}
         height={photo.height}
-        blurDataURL={photo.urls.thumb}
+        blurDataURL={photo.blur_hash}
       />
     </section>
   );
