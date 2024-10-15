@@ -47,7 +47,11 @@ async function getPhotos({
 
 async function getPhotoById(id: string): Promise<Photo> {
   const params = new URLSearchParams();
-  params.append("client_id", process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY!);
+  params.append(
+    "client_id",
+    process.env.UNSPLASH_ACCESS_KEY ||
+      process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY!
+  );
   const resp = await fetch(`https://api.unsplash.com/photos/${id}?${params}`);
   return resp.json();
 }
