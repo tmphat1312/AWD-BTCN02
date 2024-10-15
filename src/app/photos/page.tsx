@@ -79,7 +79,7 @@ function Images({ images }: { images: Photo[] }) {
               alt={photo.alt_description}
             />
             <section className="text-center py-2 group-hover:underline underline-offset-2">
-              <span className="text-sm italic">Created by</span>
+              <span className="text-sm italic">Published by</span>
               <h3 className="font-medium">{photo.user.name}</h3>
             </section>
           </Link>

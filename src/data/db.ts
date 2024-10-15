@@ -36,8 +36,14 @@ async function getPhotos({
   return resp.json();
 }
 
+async function getPhotoById(id: string): Promise<Photo> {
+  const resp = await fetch(`http://localhost:3000/photos/${id}`);
+  return resp.json();
+}
+
 export const db = {
   query: {
     getPhotos,
+    getPhotoById,
   },
 };
